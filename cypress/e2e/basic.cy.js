@@ -16,12 +16,26 @@ describe('Cypress basics', () => {
             .should('be.equal', 'Campo de Treinamento')
             .and('contain', 'Campo');
 
+        let syncTitle
+
         cy.title().then(title => { // Tanto o then() quanto o should() tratam as promises.
             console.log(title)
+
+            cy.get('#formNome').type(title)
+
+            syncTitle = title
+
         })
 
-        //TODO imprimir o title no console
-        //TODO escrever o title em um campo de texto
+        cy.get('[data-cy="dataSobrenome"]').then(el => {
+            el.val(syncTitle)
+        })
+
+        cy.get('#elementosForm\\:sugestoes').then(el => {   // Como exitem dois pontos é necessaário usar duas barras para o cypress poder ignorar
+            cy.wrap(el).type(syncTitle);
+        })
+
+    
     });
 
     it('Should find and interact with an element', () => {

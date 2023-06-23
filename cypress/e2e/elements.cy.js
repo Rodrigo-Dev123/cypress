@@ -59,7 +59,7 @@ describe('Work with basic elements', () => {
         cy.get('[name="formSexo"]').should('have.length', 2);
     });
 
-    it.only('Checkbox', () => {
+    it('Checkbox', () => {
         cy.get('#formComidaPizza')
             .click()
             .should('be.checked');
@@ -69,17 +69,31 @@ describe('Work with basic elements', () => {
         cy.get('#formComidaVegetariana').should('be.checked')
     })
 
-    it.only('Combo', () => {
+    it('Combo', () => {
         cy.get('[data-test="dataEscolaridade"]')
         .select('2o grau completo')  // Para selecionar, ele aceita o texto visível e o atributo da opção à ser escolhida.
         .should('have.value', '2graucomp') // Para a verificação do value ele só aceita o atriubuto value.
 
-        //TODO validar opções de combo
+        cy.get('[data-test="dataEscolaridade"] option')
+            .should('have.length', 8);
+
+        cy.get('[data-test="dataEscolaridade"] option').then(arr => {
+            const values = [];
+            arr.each(function() {
+                values.push(this.innerHTML)
+            })
+            expect(values).to.include.members(["Superior", "Mestrado"])
+        })
     })
 
     it.only('Combo multiplo', () => {
         cy.get('[data-testid="dataEsportes"]')
-            .select(['natacao', 'Corrida', 'nada']) // Para selecionar vários no combo múltiplo é necessario passar os atributos do value para o select()
+            .select(['natacao', 'Corrida', 'nada']); // Para selecionar vários no combo múltiplo é necessario passar os atributos do value para o select()
+        // cy.get('[data-testid="dataEsportes"]').should('have.value', ['natacao', 'Corrida', 'nada']) // o should não funcionou bem nesta assertiva.
+        cy.get('[data-testid="dataEsportes"]').then($el => {
+            expect($el.val()).to.be.deep.equal(['natacao', 'Corrida', 'nada'])  // A função val() sem receber o parâmetro acaba tendo a função de capturar o valor do elemento.
+
+        })
 
         //TODO validar opções selecionadas do combo multiplo
     })
