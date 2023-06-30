@@ -92,8 +92,13 @@ describe('Work with basic elements', () => {
         // cy.get('[data-testid="dataEsportes"]').should('have.value', ['natacao', 'Corrida', 'nada']) // o should não funcionou bem nesta assertiva.
         cy.get('[data-testid="dataEsportes"]').then($el => {
             expect($el.val()).to.be.deep.equal(['natacao', 'Corrida', 'nada'])  // A função val() sem receber o parâmetro acaba tendo a função de capturar o valor do elemento.
-
+            expect($el.val()).to.have.length(3)
         })
+
+        cy.get('[data-testid="dataEsportes"]')
+            .invoke('val').should('eql', ['natacao', 'Corrida', 'nada']) // o eql tem a mesma função do deep equal
+
+
 
         //TODO validar opções selecionadas do combo multiplo
     })
