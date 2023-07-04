@@ -20,4 +20,23 @@ describe('Dinimic tests', () => {
             cy.get('#resultado > :nth-child(1)').should('contain', 'Cadastrado!')
         })
     })
+
+    it.only('Deve selecionar todos usando o each', () => {
+            cy.get('#formNome').type('Usuario')
+            cy.get('#formSobrenome').type('Qualquer')
+            cy.get(`[name=formSexo][value=F`).click()
+
+            cy.get('[name=formComidaFavorita]').each($el => { // A fução each() vai pegar cada um dos elementos que forem recebidos de uma vez.
+                // $el.click()
+                if($el.val() !== 'vegetariano') {
+                    cy.wrap($el).click() // O cy.wrap() foi usado para que os cliques podessem ser rastreados pelo cypress.
+                }
+            })
+
+            cy.get('#formEscolaridade').select('Doutorado');
+            cy.get('#formEsportes').select('Corrida');
+            cy.get('#formCadastrar').click()
+            cy.get('#resultado > :nth-child(1)').should('contain', 'Cadastrado!')
+            // cy.clickAlert('#formCadastrar', 'Tem certeza que voce eh vegetariano?')
+    })
 })
