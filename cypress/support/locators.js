@@ -7,13 +7,22 @@ const locators = {
 
     MENU: {
         SETINGS: '[data-test="menu-settings"]',
-        CONTAS: '[href="/contas"]'
+        CONTAS: '[href="/contas"]',
+        RESET: '[href="/reset"]',
+        MOVIMENTACAO: '[data-test="menu-movimentacao"]'
     },
 
     CONTAS: {
         NOME: '[data-test="nome"]',
         BTN_SALVAR: '.btn',
         XP_BNT_ALTERAR: "//table//td[contains(. ,'Conta de teste')]/..//i[@class='far fa-edit']"
+    },
+
+    MOVIMENTACAO: {
+        DESCRICAO: '[data-test="descricao"]',
+        VALOR: '[data-test="valor"]',
+        INTERESSADO: '[data-test="envolvido"]',
+        BTN_SALVAR: '.btn-primary'
     },
 
     MESSAGE: '.toast-message',
