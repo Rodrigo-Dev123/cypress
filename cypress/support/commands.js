@@ -45,3 +45,28 @@ Cypress.Commands.add('resetApp', () => {
     cy.get(loc.MENU.SETINGS).click()
     cy.get(loc.MENU.RESET).click()
 })
+
+Cypress.Commands.add('getToken', (user, passwd) => {
+    cy.request({
+        method: 'POST',
+        url: 'https://barrigarest.wcaquino.me/signin',
+        body: {
+            email: user, 
+            senha: passwd, 
+            redirecionar: false
+        }
+    }).its('body.token').should('not.be.empty')
+    .then(token => {
+        return token
+    })
+})
+
+Cypress.Commands.add('resetRest', () => {
+    cy.getToken('rodrigodevjavascript@gmail.com', 'cypress').then(token => {
+        cy.request({
+            method: 'GET',
+            url: 'https://barrigarest.wcaquino.me/reset',
+            headers: { Authorization: `JWT ${token}` }
+        })
+    }).its('status').should('be.equal', 200)
+})
